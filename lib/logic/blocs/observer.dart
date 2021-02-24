@@ -7,4 +7,10 @@ class AppObserver extends BlocObserver {
     debugPrint('${cubit.runtimeType} $change');
     super.onChange(cubit, change);
   }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    debugPrint(transition.toString());
+    super.onTransition(bloc, transition);
+  }
 }

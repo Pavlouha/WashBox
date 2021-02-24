@@ -7,6 +7,7 @@ import 'package:washbox/other/borders.dart';
 import 'package:washbox/logic/blocs/auth/gender_bloc.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:washbox/logic/blocs/auth/login_form_bloc.dart';
 
 class RegistrationView extends StatefulWidget {
   RegistrationView({Key key, this.title}) : super(key: key);
@@ -19,26 +20,17 @@ class RegistrationView extends StatefulWidget {
 
 class _RegistrationViewState extends State<RegistrationView> {
 
-  final _loginController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _loginFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
 
-  final _nameController = TextEditingController();
-  final _patronymicController = TextEditingController();
-  final _surnameController = TextEditingController();
+  final _nameFocusNode = FocusNode();
+  final _patronymicFocusNode = FocusNode();
+  final _surnameFocusNode = FocusNode();
 
-  final _genderController = TextEditingController();
+  final _genderFocusNode = FocusNode();
 
-  final _emailController = TextEditingController();
-  final _addressController = TextEditingController();
-
-  ///Проверка e-mail на корректность. Чтоб при загрузке страницы не краснело, ввёл
-  ///второй бул - _isEmailRedacted
-  bool _isEmailRedacted = false;
-  bool _isEmailValid = true;
-
-  ///Проверка электронной почты
-  final RegExp _emailVaildator = RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+  final _emailFocusNode = FocusNode();
+  final _addressFocusNode = FocusNode();
 
   ///Кнопка регистрации
   Widget _submitButton() {
@@ -66,15 +58,15 @@ class _RegistrationViewState extends State<RegistrationView> {
   Widget _loginPasswordWidget() {
     return Column(
       children: <Widget>[
-        numberWidget("Телефон*", _loginController),
-        passwordWidget("Пароль*", _passwordController),
+        numberWidget("Телефон*", _loginFocusNode),
+        passwordWidget("Пароль*", _passwordFocusNode),
         SizedBox(height: 20),
-        standartTextInputWidget("Фамилия*", _surnameController),
-        standartTextInputWidget("Имя*", _nameController),
-        standartTextInputWidget("Отчество*", _patronymicController),
-        radioButtonGenderWidget("Укажите пол", _genderController),
-        emailInputWidget("Ваш e-mail", _emailController),
-        standartTextInputWidget("Адрес", _addressController),
+        surnameTextInputWidget("Фамилия*", _surnameFocusNode),
+        nameTextInputWidget("Имя*", _nameFocusNode),
+        middleNameTextInputWidget("Отчество*", _patronymicFocusNode),
+        radioButtonGenderWidget("Укажите пол", _genderFocusNode),
+        emailTextInputWidget("Ваш e-mail", _emailFocusNode),
+        addressTextInputWidget("Адрес", _addressFocusNode),
       ],
     );
   }
@@ -117,41 +109,45 @@ class _RegistrationViewState extends State<RegistrationView> {
   ///Убираем текстовые контроллеры
   @override
   void dispose() {
-    _loginController.dispose();
-    _passwordController.dispose();
-    _genderController.dispose();
-    _patronymicController.dispose();
-    _surnameController.dispose();
-    _nameController.dispose();
-    _emailController.dispose();
-    _addressController.dispose();
+    _loginFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _genderFocusNode.dispose();
+    _patronymicFocusNode.dispose();
+    _surnameFocusNode.dispose();
+    _nameFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _addressFocusNode.dispose();
     super.dispose();
   }
 
   ///Радиокнопки. Узнаём, какой гендер выбран, при необходимости - показываем дополнительное поле ввода
   Widget radioButtonGenderWidget(String title,
-      TextEditingController textController) {
+      FocusNode focusNode) {
     return Container(
-        margin: EdgeInsets.symmetric(vertical: 3, horizontal: 20),
-        child: BlocBuilder<GenderBloc, GenderState>(
-          builder : (context, state) {
-           return Column(
+      margin: EdgeInsets.symmetric(vertical: 3, horizontal: 20),
+      child: BlocBuilder<GenderBloc, GenderState>(
+          builder: (context, state) {
+            return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
                     height: 10,
                   ),
                   Text(
-                    'Пол*', style: TextStyle(color: inputTextColor, fontSize: 16),),
+                    'Пол*',
+                    style: TextStyle(color: inputTextColor, fontSize: 16),),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Radio(
                         activeColor: activeRadioColor,
-                        value: 0,
+                        value: 'Male',
                         groupValue: state.choosedGender,
-                        onChanged: (_) {
-                          BlocProvider.of<GenderBloc>(context).add(GenderSetMale());
+                        onChanged: (value) {
+                          BlocProvider.of<GenderBloc>(context).add(
+                              GenderSetMale());
+                          BlocProvider.of<LoginFormBloc>(context).add(
+                              GenderChanged(gender: value));
                         },
                       ),
                       Text(
@@ -161,10 +157,13 @@ class _RegistrationViewState extends State<RegistrationView> {
                       ),
                       Radio(
                         activeColor: activeRadioColor,
-                        value: 1,
+                        value: 'Female',
                         groupValue: state.choosedGender,
-                        onChanged: (_) {
-                          BlocProvider.of<GenderBloc>(context).add(GenderSetFemale());
+                        onChanged: (value) {
+                          BlocProvider.of<GenderBloc>(context).add(
+                              GenderSetFemale());
+                          BlocProvider.of<LoginFormBloc>(context).add(
+                              GenderChanged(gender: value));
                         },
                       ),
                       Text(
@@ -176,10 +175,13 @@ class _RegistrationViewState extends State<RegistrationView> {
                       ),
                       Radio(
                         activeColor: activeRadioColor,
-                        value: 2,
+                        value: 'Other',
                         groupValue: state.choosedGender,
-                        onChanged: (_) {
-                          BlocProvider.of<GenderBloc>(context).add(GenderSetOther());
+                        onChanged: (value) {
+                          BlocProvider.of<GenderBloc>(context).add(
+                              GenderSetOther());
+                          BlocProvider.of<LoginFormBloc>(context).add(
+                              GenderChanged(gender: value));
                         },
                       ),
                       Text(
@@ -189,16 +191,18 @@ class _RegistrationViewState extends State<RegistrationView> {
                       ),
                     ],
                   ),
-            state.choosedGender == 2 ? standartTextInputWidget(title, textController) : Container(width: 0,height: 0),
+                  state.choosedGender == 2 ? genderTextInputWidget(
+                      title, focusNode) : Container(width: 0, height: 0),
                 ]
-           );
+            );
           }
-        ),
-        );
+      ),
+    );
   }
 
-  ///Ввод электронной почты, её проверка
-  Widget emailInputWidget(String title, TextEditingController textController) {
+  /// Виджет, содержащий местечко для ввода пароля. Нажатие на глаз переключает
+  /// видимость пароля (звёздочки)
+  Widget passwordWidget(String title, FocusNode focusNode) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 3, horizontal: 20),
       child: Column(
@@ -207,25 +211,39 @@ class _RegistrationViewState extends State<RegistrationView> {
           SizedBox(
             height: 10,
           ),
-          TextField(
-              onChanged: (value) {
-                setState(() {
-                  _isEmailRedacted = true;
-                  _isEmailValid = _emailVaildator.hasMatch(value);
-                });
-              },
-              controller: textController,
-              decoration: InputDecoration(
-                  hintText: title,
-                  enabledBorder: inputBorder(),
-                  focusedBorder: inputBorder(),
-                  fillColor: _isEmailRedacted == true && _isEmailValid == false
-                      ? Colors.red
-                      : inputTextColor,
-                  filled: true))
+          BlocBuilder<LoginFormBloc, LoginFormState>(
+            builder: (context, state) {
+              return TextFormField(
+                initialValue: state.password.value,
+                textInputAction: TextInputAction.done,
+                obscureText: state.hidden,
+                focusNode: focusNode,
+                decoration: InputDecoration(
+                    errorText: state.password.invalid
+                        ? '8 символов, минимум 1 цифра'
+                        : null,
+                    suffixIcon: IconButton(
+                      icon: state.hidden == true ? Icon(
+                          Icons.remove_red_eye_outlined, color: Colors.black) :
+                      Icon(Icons.remove_red_eye, color: Colors.black),
+                      onPressed: () {
+                        context.read<LoginFormBloc>().add(
+                            VisibilityChanged(hidden: state.hidden));
+                      },
+                    ),
+                    hintText: title,
+                    enabledBorder: inputBorder(),
+                    focusedBorder: inputBorder(),
+                    fillColor: inputTextColor,
+                    filled: true),
+                onChanged: (value) {
+                  context.read<LoginFormBloc>().add(
+                      PasswordChanged(password: value));
+                },);
+            },
+          ),
         ],
       ),
     );
   }
-
 }

@@ -5,9 +5,9 @@ import 'package:washbox/other/colors.dart';
 import 'package:washbox/other/borders.dart';
 
 import 'package:washbox/logic/blocs/auth/gender_bloc.dart';
+import 'package:washbox/logic/blocs/auth/login_form_bloc.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:washbox/logic/blocs/auth/login_form_bloc.dart';
 
 class RegistrationView extends StatefulWidget {
   RegistrationView({Key key, this.title}) : super(key: key);
@@ -24,7 +24,7 @@ class _RegistrationViewState extends State<RegistrationView> {
   final _passwordFocusNode = FocusNode();
 
   final _nameFocusNode = FocusNode();
-  final _patronymicFocusNode = FocusNode();
+  final _middleNameFocusNode = FocusNode();
   final _surnameFocusNode = FocusNode();
 
   final _genderFocusNode = FocusNode();
@@ -63,7 +63,8 @@ class _RegistrationViewState extends State<RegistrationView> {
         SizedBox(height: 20),
         surnameTextInputWidget("Фамилия*", _surnameFocusNode),
         nameTextInputWidget("Имя*", _nameFocusNode),
-        middleNameTextInputWidget("Отчество*", _patronymicFocusNode),
+        middleNameTextInputWidget("Отчество*", _middleNameFocusNode),
+        dateOfBirthTextInputWidget("Выберите дату рождения >"),
         radioButtonGenderWidget("Укажите пол", _genderFocusNode),
         emailTextInputWidget("Ваш e-mail", _emailFocusNode),
         addressTextInputWidget("Адрес", _addressFocusNode),
@@ -106,13 +107,13 @@ class _RegistrationViewState extends State<RegistrationView> {
         ));
   }
 
-  ///Убираем текстовые контроллеры
+  ///Убираем текстовые ноды
   @override
   void dispose() {
     _loginFocusNode.dispose();
     _passwordFocusNode.dispose();
     _genderFocusNode.dispose();
-    _patronymicFocusNode.dispose();
+    _middleNameFocusNode.dispose();
     _surnameFocusNode.dispose();
     _nameFocusNode.dispose();
     _emailFocusNode.dispose();
@@ -121,8 +122,7 @@ class _RegistrationViewState extends State<RegistrationView> {
   }
 
   ///Радиокнопки. Узнаём, какой гендер выбран, при необходимости - показываем дополнительное поле ввода
-  Widget radioButtonGenderWidget(String title,
-      FocusNode focusNode) {
+  Widget radioButtonGenderWidget(String title, FocusNode focusNode) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 3, horizontal: 20),
       child: BlocBuilder<GenderBloc, GenderState>(
@@ -130,9 +130,6 @@ class _RegistrationViewState extends State<RegistrationView> {
             return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  SizedBox(
-                    height: 10,
-                  ),
                   Text(
                     'Пол*',
                     style: TextStyle(color: inputTextColor, fontSize: 16),),
@@ -191,7 +188,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                       ),
                     ],
                   ),
-                  state.choosedGender == 2 ? genderTextInputWidget(
+                  state.choosedGender == 'Other' ? genderTextInputWidget(
                       title, focusNode) : Container(width: 0, height: 0),
                 ]
             );
@@ -246,4 +243,41 @@ class _RegistrationViewState extends State<RegistrationView> {
       ),
     );
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _loginFocusNode.addListener(() {
+      if (!_loginFocusNode.hasFocus) {
+        context.read<LoginFormBloc>().add(PhoneUnfocused());
+        FocusScope.of(context).requestFocus(_passwordFocusNode);
+      }
+    });
+    _passwordFocusNode.addListener(() {
+      if (!_passwordFocusNode.hasFocus) {
+        context.read<LoginFormBloc>().add(PasswordUnfocused());
+      }
+    });
+    _nameFocusNode.addListener(() {
+      if (!_nameFocusNode.hasFocus) {
+        context.read<LoginFormBloc>().add(NameUnfocused());
+      }
+    });
+    _middleNameFocusNode.addListener(() {
+      if (!_middleNameFocusNode.hasFocus) {
+        context.read<LoginFormBloc>().add(MiddleNameUnfocused());
+      }
+    });
+    _surnameFocusNode.addListener(() {
+      if (!_surnameFocusNode.hasFocus) {
+        context.read<LoginFormBloc>().add(SurnameUnfocused());
+      }
+    });
+    _emailFocusNode.addListener(() {
+      if (!_emailFocusNode.hasFocus) {
+        context.read<LoginFormBloc>().add(EmailUnfocused());
+      }
+    });
+  }
+
 }

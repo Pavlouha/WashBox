@@ -10,6 +10,7 @@ class LoginFormState extends Equatable {
     this.gender = 'Male',
     this.email = const Email.pure(),
     this.address = '',
+    this.dateOfBirth = '',
     this.status = FormzStatus.pure,
     this.hidden = true,
 });
@@ -22,6 +23,7 @@ class LoginFormState extends Equatable {
   final String gender;
   final Email email;
   final String address;
+  final String dateOfBirth;
   final FormzStatus status;
   final bool hidden;
 
@@ -34,6 +36,7 @@ class LoginFormState extends Equatable {
     String gender,
     Email email,
     String address,
+    String dateOfBirth,
     FormzStatus status,
     bool hidden,
   }) {
@@ -46,6 +49,7 @@ class LoginFormState extends Equatable {
       gender: gender ?? this.gender,
       email: email ?? this.email,
       address: address ?? this.address,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       status: status ?? this.status,
       hidden: hidden ?? this.hidden,
     );

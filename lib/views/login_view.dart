@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginView> {
   Widget _registerButton() {
     return  TextButton(
       onPressed: () =>
-       //TODO перевести на блок
+       //TODO перевести на блок (если возможно)
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RegistrationPage())),
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -171,7 +171,6 @@ class _LoginPageState extends State<LoginView> {
     });
   }
 }
-
 
 /// Виджет, содержащий местечко для ввода пароля. Нажатие на глаз переключает
 /// видимость пароля (звёздочки)

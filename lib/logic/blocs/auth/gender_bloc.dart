@@ -9,7 +9,7 @@ part 'gender_event.dart';
 part 'gender_state.dart';
 
 class GenderBloc extends Bloc<GenderEvent, GenderState> {
-  GenderBloc() : super(GenderInitial(0));
+  GenderBloc() : super(GenderInitial('Male'));
 
   @override
   Stream<GenderState> mapEventToState(GenderEvent event) async* {

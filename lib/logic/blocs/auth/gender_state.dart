@@ -2,25 +2,24 @@ part of 'gender_bloc.dart';
 
 @immutable
 abstract class GenderState {
-  final int choosedGender;
+  final String choosedGender;
   const GenderState(this.choosedGender);
 }
 
 class GenderInitial extends GenderState {
-  GenderInitial(int choosedGender) : super(choosedGender);
+  GenderInitial(String choosedGender) : super(choosedGender);
 }
 
 class GenderIsMale extends GenderState {
-  GenderIsMale({int choosedGender = 0}) : super(choosedGender);
+  GenderIsMale({String choosedGender = 'Male'}) : super(choosedGender);
 
 }
 
 class GenderIsFemale extends GenderState {
-  GenderIsFemale({int choosedGender = 1}) : super(choosedGender);
+  GenderIsFemale({String choosedGender = 'Female'}) : super(choosedGender);
 
 }
-
 class GenderIsOther extends GenderState {
-  GenderIsOther({int choosedGender = 2}) : super(choosedGender);
+  GenderIsOther({String choosedGender = 'Other'}) : super(choosedGender);
 
 }

@@ -4,13 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
-import 'package:washbox/logic/models/middle_name.dart';
+import 'file:///C:/Users/pav5a/Desktop/WashBox/washbox/lib/logic/models/auth/middle_name.dart';
 
-import 'package:washbox/logic/models/password.dart';
-import 'package:washbox/logic/models/phone.dart';
-import 'package:washbox/logic/models/name.dart';
-import 'package:washbox/logic/models/surname.dart';
-import 'package:washbox/logic/models/email.dart';
+import 'file:///C:/Users/pav5a/Desktop/WashBox/washbox/lib/logic/models/auth/password.dart';
+import 'file:///C:/Users/pav5a/Desktop/WashBox/washbox/lib/logic/models/auth/phone.dart';
+import 'file:///C:/Users/pav5a/Desktop/WashBox/washbox/lib/logic/models/auth/name.dart';
+import 'file:///C:/Users/pav5a/Desktop/WashBox/washbox/lib/logic/models/auth/surname.dart';
+import 'file:///C:/Users/pav5a/Desktop/WashBox/washbox/lib/logic/models/auth/email.dart';
 
 part 'login_form_event.dart';
 part 'login_form_state.dart';
@@ -155,6 +155,10 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
       final hidden = !event.hidden;
       yield state.copyWith(
           hidden: hidden);
+    } else if (event is DateOfBirthConfirmed) {
+      final dateOfBirth = event.dateOfBirth;
+      yield state.copyWith(
+          dateOfBirth: dateOfBirth);
     }
   }
 }

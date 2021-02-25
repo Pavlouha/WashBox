@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:washbox/logic/blocs/auth/login_form_bloc.dart';
-import 'package:washbox/logic/phone_number_formatter.dart';
+import 'package:washbox/logic/models/auth/phone_number_formatter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:washbox/other/colors.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -251,6 +251,60 @@ Widget genderTextInputWidget(String title, FocusNode focusNode) {
                 onChanged: (value) {
               BlocProvider.of<LoginFormBloc>(context).add(GenderChanged(gender: value));});
             }),
+      ],
+    ),
+  );
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
+}
+
+Widget dateOfBirthTextInputWidget(String title) {
+  TextEditingController _textEditingController = TextEditingController();
+  return Container(
+    margin: EdgeInsets.symmetric(vertical: 3, horizontal: 20),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        SizedBox(
+          height: 10,
+        ),
+        BlocBuilder<LoginFormBloc, LoginFormState>(
+            builder: (context, state) {
+              return TextFormField(
+              //  enabled: false,
+                controller: _textEditingController,
+                focusNode: new AlwaysDisabledFocusNode(),
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(icon: Icon(
+                        Icons.calendar_today_rounded, color: Colors.black),
+                      onPressed: () {
+                        showDatePicker(context: context, initialDate: DateTime(2010, 1, 1),
+                          firstDate: DateTime(1900, 1, 1), lastDate:  DateTime(2010, 1, 1),
+                          initialDatePickerMode: DatePickerMode.year,
+                          locale : const Locale("ru","RU"),
+                        ).then((selectedDate) {
+              _textEditingController
+              ..text = 'Дата: ${selectedDate.toString().substring(0, 10)}'
+              ..selection = TextSelection.fromPosition(TextPosition(
+              offset: _textEditingController.text.length,
+              affinity: TextAffinity.upstream));
+                         if (selectedDate != null) {
+                           BlocProvider.of<LoginFormBloc>(context).add(DateOfBirthConfirmed(dateOfBirth: selectedDate.toIso8601String()));
+                         }
+                        });
+                      },
+                    ),
+                    hintText: title,
+                    enabledBorder: inputBorder(),
+                    focusedBorder: inputBorder(),
+                    fillColor: inputTextColor,
+                    filled: true),
+              );
+            }
+            ),
       ],
     ),
   );

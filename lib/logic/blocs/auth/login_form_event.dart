@@ -108,3 +108,9 @@ class VisibilityChanged extends LoginFormEvent {
 
   final bool hidden;
 }
+
+class DateOfBirthConfirmed extends LoginFormEvent {
+  const DateOfBirthConfirmed({@required this.dateOfBirth});
+
+  final String dateOfBirth;
+}

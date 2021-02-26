@@ -5,9 +5,9 @@ import 'package:washbox/logic/providers/auth_provider.dart';
 
 class AuthRepository {
 
-  AuthenticationProvider _authenticationProvider = AuthenticationProvider();
+ final AuthenticationProvider _authenticationProvider = AuthenticationProvider();
 
-  Future<bool> fetchRegistration(User user) => _authenticationProvider.register(user: user);
+  Future<bool> fetchRegistration(User _user) => _authenticationProvider.register(user: _user);
 
   Future<Token> fetchAuthentication(Auth auth) => _authenticationProvider.authenticate(auth: auth);
 

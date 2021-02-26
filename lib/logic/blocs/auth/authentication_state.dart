@@ -14,12 +14,12 @@ class AuthenticationLoading extends AuthenticationState {}
 class AuthenticationNotAuthenticated extends AuthenticationState {}
 
 class AuthenticationAuthenticated extends AuthenticationState {
-  final Auth auth;
+  final Token token;
 
-  AuthenticationAuthenticated({@required this.auth});
+  AuthenticationAuthenticated({@required this.token});
 
   @override
-  List<Object> get props => [auth];
+  List<Object> get props => [token];
 }
 
 class AuthenticationFailed extends AuthenticationState {
@@ -42,10 +42,10 @@ class UserRegistrationFailed extends AuthenticationState {
   List<Object> get props => [message];
 }
 
-class TokenExpired extends AuthenticationState {
+class TokenProlonged extends AuthenticationState {
   final Token token;
 
-  TokenExpired({@required this.token});
+  TokenProlonged({@required this.token});
 
   @override
   List<Object> get props => [token];

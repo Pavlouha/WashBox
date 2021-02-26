@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:washbox/logic/blocs/auth/authentication_bloc.dart';
+import 'package:washbox/logic/models/api/user.dart';
 
 import 'package:washbox/views/widgets/login_and_registration.dart';
 import 'package:washbox/other/colors.dart';
@@ -8,6 +10,8 @@ import 'package:washbox/logic/blocs/auth/gender_bloc.dart';
 import 'package:washbox/logic/blocs/auth/login_form_bloc.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:formz/formz.dart';
 
 class RegistrationView extends StatefulWidget {
   RegistrationView({Key key, this.title}) : super(key: key);
@@ -34,24 +38,34 @@ class _RegistrationViewState extends State<RegistrationView> {
 
   ///Кнопка регистрации
   Widget _submitButton() {
-    //TODO OnPressed
-    return TextButton(onPressed: null,
-      child: Container(
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
-        padding: EdgeInsets.all(15),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: buttonColor,
-        ),
-        child: Text(
-          'Зарегистрироваться',
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
-      ),);
+    return BlocBuilder<LoginFormBloc, LoginFormState>(
+        buildWhen: (previous, current) => previous.status != current.status,
+        builder: (context, state) {
+         return TextButton(onPressed: state.status.isValidated ? () {
+           context.read<LoginFormBloc>().add(LoginFormSubmitted());
+           User registerUser = User(phoneNumber: state.phone.value, password: state.password.value,
+               surname: state.surname.value, name: state.name.value, middleName: state.middleName.value, dayOfBirth: state.dateOfBirth,
+               isMale: state.gender=='Male'? true : false, isFemale: state.gender=='Female'? true : false,
+               isOther: (state.gender != 'Male') && (state.gender != 'Female') ? state.gender : '', email: state.email.value);
+           context.read<AuthenticationBloc>().add(UserRegister(user: registerUser));
+         } : null,
+            child: Container(
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
+              padding: EdgeInsets.all(15),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: buttonColor,
+              ),
+              child: Text(
+                'Зарегистрироваться',
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),);
+    });
   }
 
   ///Здесь видны все компоненты ТекстИнпут

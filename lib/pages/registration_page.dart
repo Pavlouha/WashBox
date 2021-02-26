@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:washbox/logic/blocs/auth/authentication_bloc.dart';
 
 import 'package:washbox/views/registration_view.dart';
 
@@ -19,6 +20,9 @@ class RegistrationPage extends StatelessWidget {
         ),
         BlocProvider<LoginFormBloc>(
           create: (BuildContext context) => LoginFormBloc(),
+        ),
+        BlocProvider<AuthenticationBloc>(
+          create: (BuildContext context) => AuthenticationBloc(),
         ),
       ],
       child: RegistrationView(),

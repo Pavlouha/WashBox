@@ -131,7 +131,6 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
       );
       if (state.status.isValidated) {
         yield state.copyWith(status: FormzStatus.submissionInProgress);
-        //TODO  yield state.copyWith(status: FormzStatus.submissionSuccess);
       }
     } else if (event is RegisterFormSubmitted) {
       final phone = Phone.dirty(state.phone.value);
@@ -149,7 +148,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
       );
       if (state.status.isValidated) {
         yield state.copyWith(status: FormzStatus.submissionInProgress);
-        //TODO  yield state.copyWith(status: FormzStatus.submissionSuccess);
+        yield state.copyWith(status: FormzStatus.submissionSuccess);
       }
     } else if (event is VisibilityChanged) {
       final hidden = !event.hidden;

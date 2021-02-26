@@ -1,5 +1,7 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
+import 'package:washbox/logic/blocs/auth/authentication_bloc.dart';
+import 'package:washbox/logic/models/api/auth.dart';
 import 'package:washbox/other/colors.dart';
 import 'package:washbox/other/borders.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -32,7 +34,10 @@ class _LoginPageState extends State<LoginView> {
     buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state) {
       return TextButton(
-        onPressed: state.status.isValidated ? () => context.read<LoginFormBloc>().add(LoginFormSubmitted()) : null,
+        onPressed: state.status.isValidated ? () {
+          context.read<LoginFormBloc>().add(LoginFormSubmitted());
+          context.read<AuthenticationBloc>().add(UserAuthenticate(auth: Auth(login: state.phone.value, password: state.password.value)));
+        } : null,
     child: Container(
     width: MediaQuery.of(context).size.width,
     padding: EdgeInsets.all(15),
@@ -53,7 +58,6 @@ class _LoginPageState extends State<LoginView> {
   Widget _registerButton() {
     return  TextButton(
       onPressed: () =>
-       //TODO перевести на блок (если возможно)
           Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => RegistrationPage())),
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -111,14 +115,17 @@ class _LoginPageState extends State<LoginView> {
             children: <Widget>[
     BlocListener<LoginFormBloc, LoginFormState>(
     listener: (context, state) {
-      //TODO потом
       if (state.status.isSubmissionInProgress) {
         Scaffold.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
-            const SnackBar(content: Text('Работает!')),
+            const SnackBar(content: Text('Подождите...')),
           );
-      }},
+      }
+      if (state.status.isSubmissionSuccess) {
+        //TODO на главный экран аппы
+      }
+      },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(

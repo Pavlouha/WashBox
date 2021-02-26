@@ -148,7 +148,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
       );
       if (state.status.isValidated) {
         yield state.copyWith(status: FormzStatus.submissionInProgress);
-        yield state.copyWith(status: FormzStatus.submissionSuccess);
+     //   yield state.copyWith(status: FormzStatus.submissionSuccess);
       }
     } else if (event is VisibilityChanged) {
       final hidden = !event.hidden;

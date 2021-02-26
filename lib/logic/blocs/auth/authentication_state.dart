@@ -1,13 +1,18 @@
 part of 'authentication_bloc.dart';
 
 abstract class AuthenticationState extends Equatable {
-  const AuthenticationState();
+
+  final String status;
+
+  const AuthenticationState({this.status = AuthenticationInitial});
 
   @override
   List<Object> get props => [];
 }
 
-class AuthenticationInitial extends AuthenticationState {}
+class AuthenticationInitial extends AuthenticationState {
+  //TODO сделать статус тады шоле
+}
 
 class AuthenticationLoading extends AuthenticationState {}
 

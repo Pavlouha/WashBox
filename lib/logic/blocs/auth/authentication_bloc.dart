@@ -30,6 +30,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       } else if (event is Loading) {
       yield AuthenticationLoading();
     } else if (event is UserRegister) {
+      yield AuthenticationLoading();
       bool isRegistered = await _repository.fetchRegistration(event.user);
       if (isRegistered != null) {
         LoginFormBloc().state.copyWith(status: FormzStatus.submissionSuccess);
@@ -38,6 +39,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         yield UserRegistrationFailed(message: 'User Registration Failed');
       }
     } else if (event is UserAuthenticate) {
+      yield AuthenticationLoading();
       Token token = await _repository.fetchAuthentication(event.auth);
       if (token != null) {
         yield AuthenticationAuthenticated(token: token);
@@ -45,6 +47,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         yield AuthenticationFailed(message: 'Authentication failed');
       }
     } else if (event is TokenExpire) {
+      yield AuthenticationLoading();
       Token newToken = await _repository.fetchRefreshing(event.token);
       if (newToken != null) {
         yield TokenProlonged(token: newToken);

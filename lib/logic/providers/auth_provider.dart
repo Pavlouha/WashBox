@@ -61,9 +61,9 @@ class AuthenticationProvider {
       }));
 
       if (response.statusCode == 200) {
-        return Token.fromJson(response.data);
+        return Token(accessToken: response.headers.value('Access_token'), refreshToken: response.headers.value('Refresh_token'));
       } else {
-        debugPrint(response.data.toString());
+        debugPrint(response.headers.toString());
         throw SignUpFailure();
       }
     } on Exception {
@@ -76,7 +76,7 @@ class AuthenticationProvider {
       var response = await _dio.post(connectionString()+'/auth/refresh', options: Options(headers: {
         HttpHeaders.contentTypeHeader: "application/json", 'refresh_token' : token.refreshToken}));
       if (response.statusCode == 200) {
-        return Token.fromJson(response.data);
+        return Token(accessToken: response.headers.value('Access_token'), refreshToken: response.headers.value('Refresh_token'));
       } else {
         throw RefreshFailure();
       }

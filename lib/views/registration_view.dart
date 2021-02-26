@@ -94,18 +94,39 @@ class _RegistrationViewState extends State<RegistrationView> {
         .size
         .height;
     return Scaffold(
-        body: Container(
+        body:
+        Container(
           color: backgroundColor,
           height: height,
           child: Stack(
             children: <Widget>[
-              Container(
+              BlocListener<LoginFormBloc, LoginFormState>(
+                listener: (context, state) {
+                  if (state.status.isSubmissionInProgress) {
+                    Scaffold.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        const SnackBar(content: Text('Подождите...')),
+                      );
+                  }
+                  if (state.status.isSubmissionSuccess) {
+                    Scaffold.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        const SnackBar(content: Text('Успех, авторизуйтесь, используя логин и пароль!')),
+                      );
+                    Future.delayed(const Duration(seconds: 1), () {
+                      Navigator.pop(context);
+                    });
+                  }
+                }, child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+
                       SizedBox(height: height * .2),
                       title("Регистрация", context),
                       _loginPasswordWidget(),
@@ -115,7 +136,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                     ],
                   ),
                 ),
-              ),
+              ),),
             ],
           ),
         ));

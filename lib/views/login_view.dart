@@ -5,6 +5,7 @@ import 'package:washbox/logic/models/api/auth.dart';
 import 'package:washbox/other/colors.dart';
 import 'package:washbox/other/borders.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:washbox/pages/main_menu_page.dart';
 
 import 'package:washbox/views/widgets/login_and_registration.dart';
 import 'package:washbox/pages/registration_page.dart';
@@ -113,9 +114,9 @@ class _LoginPageState extends State<LoginView> {
           color: backgroundColor,
           child: Stack(
             children: <Widget>[
-    BlocListener<LoginFormBloc, LoginFormState>(
+    BlocListener<AuthenticationBloc, AuthenticationState>(
     listener: (context, state) {
-      if (state.status.isSubmissionInProgress) {
+      switch (state.status) {
         Scaffold.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
@@ -123,7 +124,9 @@ class _LoginPageState extends State<LoginView> {
           );
       }
       if (state.status.isSubmissionSuccess) {
-        //TODO на главный экран аппы
+        Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) => MainMenuPage()),
+                (route) => false);
       }
       },
       child: Container(

@@ -1,8 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 part 'auth.g.dart';
 
-@JsonSerializable(nullable: false)
+//@JsonSerializable(nullable: false)
 class Auth extends Equatable{
   final String login;
   final String password;

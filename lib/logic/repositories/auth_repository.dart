@@ -7,7 +7,7 @@ class AuthRepository {
 
  final AuthenticationProvider _authenticationProvider = AuthenticationProvider();
 
-  Future<bool> fetchRegistration(User _user) => _authenticationProvider.register(user: _user);
+  Future<int> fetchRegistration(User _user) => _authenticationProvider.register(user: _user);
 
   Future<Token> fetchAuthentication(Auth auth) => _authenticationProvider.authenticate(auth: auth);
 

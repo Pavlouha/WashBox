@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginView> {
   ///Кнопка входа
   Widget _submitButton() {
     return BlocBuilder<LoginFormBloc, LoginFormState>(
-    buildWhen: (previous, current) => previous.status != current.status,
+  //  buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state) {
       return TextButton(
         onPressed: state.status.isValidated ? () {
@@ -91,6 +91,7 @@ class _LoginPageState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    context.read<AuthenticationBloc>().add(AppLoaded());
     return Scaffold(
       body: DoubleBackToCloseApp(
         snackBar: SnackBar(backgroundColor: backgroundColor,
@@ -175,6 +176,7 @@ class _LoginPageState extends State<LoginView> {
   @override
   void initState() {
     super.initState();
+
     _phoneFocusNode.addListener(() {
       if (!_phoneFocusNode.hasFocus) {
         context.read<LoginFormBloc>().add(PhoneUnfocused());

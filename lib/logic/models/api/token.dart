@@ -1,8 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 part 'token.g.dart';
 
-@JsonSerializable(nullable: false)
 class Token extends Equatable{
   final String accessToken;
   final String refreshToken;

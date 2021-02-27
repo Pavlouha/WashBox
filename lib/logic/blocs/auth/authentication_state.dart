@@ -11,7 +11,9 @@ abstract class AuthenticationState extends Equatable {
 }
 
 class AuthenticationInitial extends AuthenticationState {
+
   AuthenticationInitial(String status) : super(status);
+
 }
 
 class AuthenticationLoading extends AuthenticationState {

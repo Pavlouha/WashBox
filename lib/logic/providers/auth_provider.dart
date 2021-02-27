@@ -21,15 +21,16 @@ class AuthenticationProvider {
 
   final Dio _dio = Dio();
 
-  Future<bool> register({@required User user}) async {
-  //  debugPrint('User ' + user.toString());
+  Future<int> register({@required User user}) async {
     try {
      var response = await _dio.post(connectionString()+'user', data: user.toJson(), options: Options(headers: {
         HttpHeaders.contentTypeHeader: "application/json",
       }));
      debugPrint('Response Data: '+ response.data);
       if (response.statusCode == 200) {
-        return true;
+        Map<String, dynamic> id = jsonDecode(response.data);
+        debugPrint('User id' + id['id']);
+        return id['id'].toInt;
       } else {
         throw RegisterFailure();
       }
@@ -49,7 +50,7 @@ class AuthenticationProvider {
       }));
 
       if (response.statusCode == 200) {
-        return Token(accessToken: response.headers.value('Access_token'), refreshToken: response.headers.value('Refresh_token'));
+        return Token(accessToken: response.headers.value('access_token'), refreshToken: response.headers.value('refresh_token'));
       } else {
         debugPrint(response.headers.toString());
         throw SignUpFailure();
@@ -64,7 +65,7 @@ class AuthenticationProvider {
       var response = await _dio.post(connectionString()+'/auth/refresh', options: Options(headers: {
         HttpHeaders.contentTypeHeader: "application/json", 'refresh_token' : token.refreshToken}));
       if (response.statusCode == 200) {
-        return Token(accessToken: response.headers.value('Access_token'), refreshToken: response.headers.value('Refresh_token'));
+        return Token(accessToken: response.headers.value('access_token'), refreshToken: response.headers.value('refresh_token'));
       } else {
         throw RefreshFailure();
       }

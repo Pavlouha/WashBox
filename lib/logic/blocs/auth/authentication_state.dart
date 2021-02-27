@@ -4,63 +4,66 @@ abstract class AuthenticationState extends Equatable {
 
   final String status;
 
-  const AuthenticationState({this.status = AuthenticationInitial});
+  const AuthenticationState(this.status);
 
   @override
   List<Object> get props => [];
 }
 
 class AuthenticationInitial extends AuthenticationState {
-  //TODO сделать статус тады шоле
+  AuthenticationInitial(String status) : super(status);
 }
 
-class AuthenticationLoading extends AuthenticationState {}
+class AuthenticationLoading extends AuthenticationState {
+  AuthenticationLoading({String status = 'Loading'}) : super(status);
+}
 
-class AuthenticationNotAuthenticated extends AuthenticationState {}
+class AuthenticationNotAuthenticated extends AuthenticationState {
+  AuthenticationNotAuthenticated({String status = 'Not authenticated'}) : super(status);
+  
+}
 
 class AuthenticationAuthenticated extends AuthenticationState {
   final Token token;
 
-  AuthenticationAuthenticated({@required this.token});
+  AuthenticationAuthenticated({String status = 'Authenticated', @required this.token}) : super(status);
 
   @override
   List<Object> get props => [token];
 }
 
 class AuthenticationFailed extends AuthenticationState {
-  final String message;
 
-  AuthenticationFailed({@required this.message});
+  AuthenticationFailed({String status = 'Authentication failed'}) : super(status);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [status];
 }
 
-class UserRegistered extends AuthenticationState {}
+class UserRegistered extends AuthenticationState {
+  UserRegistered({String status = 'User registered'}) : super(status);
+}
 
 class UserRegistrationFailed extends AuthenticationState {
-  final String message;
-
-  UserRegistrationFailed({@required this.message});
+  UserRegistrationFailed({String status = 'User registration failed'}) : super(status);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [status];
 }
 
 class TokenProlonged extends AuthenticationState {
   final Token token;
 
-  TokenProlonged({@required this.token});
+  TokenProlonged({String status = 'Prolonged', @required this.token}) : super(status);
 
   @override
   List<Object> get props => [token];
 }
 
 class TokenProlongationFailed extends AuthenticationState {
-  final String message;
 
-  TokenProlongationFailed({@required this.message});
+  TokenProlongationFailed({String status = 'Prolongation failed'}) : super(status);
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [status];
 }

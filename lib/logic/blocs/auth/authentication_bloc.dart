@@ -15,7 +15,7 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
  final AuthRepository _repository = AuthRepository();
-  AuthenticationBloc() : super(AuthenticationInitial());
+  AuthenticationBloc() : super(AuthenticationInitial("Initial"));
 
 
   @override
@@ -24,7 +24,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   ) async* {
     if (event is AppLoaded) {
       //TODO сохранить токен в защищённом хранилище
-      yield AuthenticationInitial();
+      yield AuthenticationInitial("Initial");
     }else if (event is UserLoggedOut) {
       yield AuthenticationNotAuthenticated();
       } else if (event is Loading) {
@@ -36,7 +36,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         LoginFormBloc().state.copyWith(status: FormzStatus.submissionSuccess);
         yield UserRegistered();
       } else {
-        yield UserRegistrationFailed(message: 'User Registration Failed');
+        yield UserRegistrationFailed();
       }
     } else if (event is UserAuthenticate) {
       yield AuthenticationLoading();
@@ -44,7 +44,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       if (token != null) {
         yield AuthenticationAuthenticated(token: token);
       } else {
-        yield AuthenticationFailed(message: 'Authentication failed');
+        yield AuthenticationFailed();
       }
     } else if (event is TokenExpire) {
       yield AuthenticationLoading();
@@ -52,7 +52,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       if (newToken != null) {
         yield TokenProlonged(token: newToken);
       } else {
-        yield TokenProlongationFailed(message: 'Prolongation failed');
+        yield TokenProlongationFailed();
       }
     }
   }

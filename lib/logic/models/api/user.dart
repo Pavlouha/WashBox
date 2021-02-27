@@ -2,9 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'user.g.dart';
 
-@JsonSerializable(nullable: false)
 class User extends Equatable{
-  final String phoneNumber;
+  final String login;
   final String password;
   final String surname;
   final String name;
@@ -13,14 +12,16 @@ class User extends Equatable{
   final bool isMale;
   final bool isFemale;
   final String isOther;
+  final String phoneNumber;
   final String email;
+  final String address;
 
-  const User({this.phoneNumber, this.password, this.surname, this.name,
-  this.middleName, this.dayOfBirth, this.isMale, this.isFemale, this.isOther, this.email});
+  const User({this.login, this.password, this.surname, this.name,
+  this.middleName, this.dayOfBirth, this.isMale, this.isFemale, this.isOther, this.phoneNumber, this.email, this.address});
 
   @override
-  List<Object> get props => [phoneNumber, password, surname, name,
-    middleName, dayOfBirth, isMale, isFemale, isOther, email];
+  List<Object> get props => [login, password, surname, name,
+    middleName, dayOfBirth, isMale, isFemale, isOther, phoneNumber, email, address];
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

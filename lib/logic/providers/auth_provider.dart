@@ -22,21 +22,9 @@ class AuthenticationProvider {
   final Dio _dio = Dio();
 
   Future<bool> register({@required User user}) async {
-    var formData = {
-      "phone_number": user.phoneNumber,
-      "password": user.password,
-      "surname": user.surname,
-      "name": user.name,
-      "middle_name": user.middleName,
-      "day_of_birth": user.dayOfBirth,
-      "is_male": user.isMale,
-      "is_female": user.isFemale,
-      "is_other": user.isOther,
-      "email": user.email
-    };
-    debugPrint('User ' + user.toString());
+  //  debugPrint('User ' + user.toString());
     try {
-     var response = await _dio.post(connectionString()+'user', data: jsonEncode(formData), options: Options(headers: {
+     var response = await _dio.post(connectionString()+'user', data: user.toJson(), options: Options(headers: {
         HttpHeaders.contentTypeHeader: "application/json",
       }));
      debugPrint('Response Data: '+ response.data);

@@ -287,7 +287,7 @@ Widget dateOfBirthTextInputWidget(String title) {
                           locale : const Locale("ru","RU"),
                         ).then((selectedDate) {
               _textEditingController
-              ..text = 'Дата: ${selectedDate.toString().substring(0, 10)}'
+              ..text = 'Дата: ${state.dateOfBirth}'
               ..selection = TextSelection.fromPosition(TextPosition(
               offset: _textEditingController.text.length,
               affinity: TextAffinity.upstream));

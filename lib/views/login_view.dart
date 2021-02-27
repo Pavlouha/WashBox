@@ -117,17 +117,24 @@ class _LoginPageState extends State<LoginView> {
     BlocListener<AuthenticationBloc, AuthenticationState>(
     listener: (context, state) {
       switch (state.status) {
+        case "Loading":
         Scaffold.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
             const SnackBar(content: Text('Подождите...')),
           );
-      }
-      if (state.status.isSubmissionSuccess) {
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (context) => MainMenuPage()),
-                (route) => false);
-      }
+        break;
+        case "Authenticated":
+          Navigator.pushAndRemoveUntil(context,
+              MaterialPageRoute(builder: (context) => MainMenuPage()),
+                  (route) => false);
+          break;
+        case 'Authentication failed':
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(content: Text('Ошибка входа!')),
+            );}
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),

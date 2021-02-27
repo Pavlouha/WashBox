@@ -100,20 +100,30 @@ class _RegistrationViewState extends State<RegistrationView> {
           height: height,
           child: Stack(
             children: <Widget>[
-              BlocListener<LoginFormBloc, LoginFormState>(
+              BlocListener<AuthenticationBloc, AuthenticationState>(
                 listener: (context, state) {
-                  if (state.status.isSubmissionInProgress) {
+                  if (state.status == 'Loading') {
                     Scaffold.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
                         const SnackBar(content: Text('Подождите...')),
                       );
                   }
-                  if (state.status.isSubmissionSuccess) {
+                  if (state.status == 'User registered') {
                     Scaffold.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
                         const SnackBar(content: Text('Успех, авторизуйтесь, используя логин и пароль!')),
+                      );
+                    Future.delayed(const Duration(milliseconds: 2500), () {
+                      Navigator.pop(context);
+                    });
+                  }
+                  if (state.status == 'User registration failed') {
+                    Scaffold.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(
+                        const SnackBar(content: Text('Ошибка регистрации!')),
                       );
                     Future.delayed(const Duration(seconds: 1), () {
                       Navigator.pop(context);

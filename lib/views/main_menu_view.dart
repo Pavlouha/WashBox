@@ -26,19 +26,19 @@ class _MainMenuView extends State<MainMenuView> {
         },
         items: [
           BottomNavigationBarItem(
-            label: 'Места',
+            label: 'Прачечные',
             icon: Icon(Icons.location_on),
           ),
           BottomNavigationBarItem(
-            label: 'QR Коды',
+            label: 'QR Код',
             icon: Icon(Icons.qr_code_scanner),
           ),
           BottomNavigationBarItem(
-            label: 'Бульки',
+            label: 'Машины',
             icon: Icon(Icons.waves_sharp),
           ),
           BottomNavigationBarItem(
-            label: 'Аккаунт',
+            label: 'Профиль',
             icon: Icon(Icons.account_circle),
           ),
         ],

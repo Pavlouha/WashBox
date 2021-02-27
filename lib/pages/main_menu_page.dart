@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:washbox/views/registration_view.dart';
+import 'package:washbox/views/main_menu_view.dart';
 
 class MainMenuPage extends StatelessWidget {
 
@@ -9,10 +8,11 @@ class MainMenuPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return /*MultiBlocProvider(
       providers: [
       ],
-      child: RegistrationView(),
-    );
+      child: */
+      MainMenuView();
+   // ,);
   }
 }

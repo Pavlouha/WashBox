@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:washbox/other/colors.dart';
+import 'package:washbox/pages/qr_code_scanner_page.dart';
 
 class MainMenuView extends StatefulWidget {
   @override
@@ -10,8 +11,11 @@ class _MainMenuView extends State<MainMenuView> {
 
   int _currentIndex = 0;
 
+  final List<Widget> _children = [Container(color: Colors.red,), QRCodeScannerPage(), Container(color: Colors.blue), Container(color: Colors.black)];
+
   Widget build(BuildContext context) {
     return Scaffold(
+      body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
@@ -21,7 +25,7 @@ class _MainMenuView extends State<MainMenuView> {
         selectedFontSize: 14,
         unselectedFontSize: 14,
         onTap: (value) {
-          // Respond to item press.
+         //TODO закинуть сюда кубит, прям-таки просится
           setState(() => _currentIndex = value);
         },
         items: [

@@ -1,10 +1,9 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:washbox/logic/blocs/auth/authentication_bloc.dart';
-import 'package:washbox/logic/models/api/auth.dart';
 import 'package:washbox/other/colors.dart';
 import 'package:washbox/other/borders.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:washbox/pages/main_menu_page.dart';
 
 import 'package:washbox/views/widgets/login_and_registration.dart';
@@ -13,7 +12,6 @@ import 'package:washbox/pages/registration_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:washbox/logic/blocs/auth/login_form_bloc.dart';
 
-import 'package:formz/formz.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key key, this.title}) : super(key: key);
@@ -35,10 +33,16 @@ class _LoginPageState extends State<LoginView> {
   //  buildWhen: (previous, current) => previous.status != current.status,
         builder: (context, state) {
       return TextButton(
-        onPressed: state.status.isValidated ? () {
+
+        //ТОЛЬКО ДЛЯ ЦЕЛЕЙ ТЕСТА КЬЮАР И МЕНЮШКИ
+        //ПОТОМ УБРАТЬ
+
+        onPressed: () =>  Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (context) => MainMenuPage()),
+                (route) => false),
+      /*  state.status.isValidated ? () {
           context.read<LoginFormBloc>().add(LoginFormSubmitted());
-          context.read<AuthenticationBloc>().add(UserAuthenticate(auth: Auth(login: state.phone.value, password: state.password.value)));
-        } : null,
+          context.read<AuthenticationBloc>().add(UserAuthenticate(auth: Auth(login: state.phone.value, password: state.password.value)));} : null, */
     child: Container(
     width: MediaQuery.of(context).size.width,
     padding: EdgeInsets.all(15),

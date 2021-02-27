@@ -193,7 +193,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                         },
                       ),
                       Text(
-                        'Мужской',
+                        'М',
                         style: new TextStyle(
                             fontSize: 13.0, color: activeRadioColor),
                       ),
@@ -209,7 +209,7 @@ class _RegistrationViewState extends State<RegistrationView> {
                         },
                       ),
                       Text(
-                        'Женский',
+                        'Ж',
                         style: new TextStyle(
                           color: activeRadioColor,
                           fontSize: 13.0,

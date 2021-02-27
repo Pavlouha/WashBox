@@ -262,7 +262,6 @@ class AlwaysDisabledFocusNode extends FocusNode {
 }
 
 Widget dateOfBirthTextInputWidget(String title) {
-  TextEditingController _textEditingController = TextEditingController();
   return Container(
     margin: EdgeInsets.symmetric(vertical: 3, horizontal: 20),
     child: Column(
@@ -274,8 +273,6 @@ Widget dateOfBirthTextInputWidget(String title) {
         BlocBuilder<LoginFormBloc, LoginFormState>(
             builder: (context, state) {
               return TextFormField(
-              //  enabled: false,
-                controller: _textEditingController,
                 focusNode: new AlwaysDisabledFocusNode(),
                 decoration: InputDecoration(
                     suffixIcon: IconButton(icon: Icon(
@@ -283,21 +280,16 @@ Widget dateOfBirthTextInputWidget(String title) {
                       onPressed: () {
                         showDatePicker(context: context, initialDate: DateTime(2010, 1, 1),
                           firstDate: DateTime(1900, 1, 1), lastDate:  DateTime(2010, 1, 1),
-                          initialDatePickerMode: DatePickerMode.year,
                           locale : const Locale("ru","RU"),
                         ).then((selectedDate) {
-              _textEditingController
-              ..text = 'Дата: ${state.dateOfBirth}'
-              ..selection = TextSelection.fromPosition(TextPosition(
-              offset: _textEditingController.text.length,
-              affinity: TextAffinity.upstream));
-                         if (selectedDate != null) {
-                           BlocProvider.of<LoginFormBloc>(context).add(DateOfBirthConfirmed(dateOfBirth: selectedDate.toIso8601String()));
-                         }
+                          if (selectedDate != null) {
+                            BlocProvider.of<LoginFormBloc>(context).add(DateOfBirthConfirmed(dateOfBirth: selectedDate.toIso8601String()));
+                          }
+                          debugPrint('ДАта' + selectedDate.toIso8601String());
                         });
                       },
                     ),
-                    hintText: title,
+                    hintText: state.dateOfBirth == '' ? title : state.dateOfBirth.substring(0,10),
                     enabledBorder: inputBorder(),
                     focusedBorder: inputBorder(),
                     fillColor: inputTextColor,

@@ -113,4 +113,7 @@ class DateOfBirthConfirmed extends LoginFormEvent {
   const DateOfBirthConfirmed({@required this.dateOfBirth});
 
   final String dateOfBirth;
+
+  @override
+  List<Object> get props => [dateOfBirth];
 }

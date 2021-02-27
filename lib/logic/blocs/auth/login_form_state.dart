@@ -56,5 +56,5 @@ class LoginFormState extends Equatable {
   }
 
   @override
-  List<Object> get props => [phone, password, name, middleName, surname, gender, email, address, status, hidden];
+  List<Object> get props => [phone, password, name, middleName, surname, gender, email, address, dateOfBirth, status, hidden];
 }

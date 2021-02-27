@@ -156,8 +156,7 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
           hidden: hidden);
     } else if (event is DateOfBirthConfirmed) {
       final dateOfBirth = event.dateOfBirth;
-      yield state.copyWith(
-          dateOfBirth: dateOfBirth);
+      yield state.copyWith(dateOfBirth: dateOfBirth);
     }
   }
 }

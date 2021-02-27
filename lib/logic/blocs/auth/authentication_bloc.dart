@@ -31,6 +31,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield AuthenticationLoading();
     } else if (event is UserRegister) {
       yield AuthenticationLoading();
+      //TODO сохранить пользовательский объект для изменений
       bool isRegistered = await _repository.fetchRegistration(event.user);
       if (isRegistered != null) {
         LoginFormBloc().state.copyWith(status: FormzStatus.submissionSuccess);

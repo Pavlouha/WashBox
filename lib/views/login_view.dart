@@ -34,8 +34,8 @@ class _LoginPageState extends State<LoginView> {
         builder: (context, state) {
       return TextButton(
 
-        //ТОЛЬКО ДЛЯ ЦЕЛЕЙ ТЕСТА КЬЮАР И МЕНЮШКИ
-        //ПОТОМ УБРАТЬ
+        ///ТОЛЬКО ДЛЯ ЦЕЛЕЙ ТЕСТА КЬЮАР И МЕНЮШКИ
+        ///ПОТОМ УБРАТЬ И ОБРАТНО ВОТКНУТЬ ЛОГИКУ!!!
 
         onPressed: () =>  Navigator.pushAndRemoveUntil(context,
             MaterialPageRoute(builder: (context) => MainMenuPage()),

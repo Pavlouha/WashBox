@@ -11,7 +11,7 @@ environment:
 dependencies:
 
   google_fonts: ^1.1.2
-  double_back_to_close_app: ^1.2.0
+  double_back_to_close_app: ^2.0.1
   hexcolor: ^1.0.6
   intl_phone_field: ^1.4.4
   flutter_bloc: ^6.1.2

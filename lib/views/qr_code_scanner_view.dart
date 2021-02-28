@@ -113,8 +113,8 @@ class _QRCodeScannerViewState extends State<QRCodeScannerView> {
                   textInputAction: TextInputAction.done,
                  // focusNode: focusNode,
                   decoration: InputDecoration(
-                      enabledBorder: inputBorder(),
-                      focusedBorder: inputBorder(),
+                      enabledBorder: inputBorder(radius: 20),
+                      focusedBorder: inputBorder(radius: 20),
                       fillColor: inputTextColor,
                       filled: true),
                   onChanged: (value) {
@@ -122,15 +122,13 @@ class _QRCodeScannerViewState extends State<QRCodeScannerView> {
         ),
       ),
       actions: [
-        FlatButton(
-          textColor: inputTextColor,
+      TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text('Отмена', style: TextStyle(fontSize: 18)),
+          child: Text('Отмена', style: TextStyle(fontSize: 18, color: inputTextColor)),
         ),
-        FlatButton(
-          textColor: inputTextColor,
+        TextButton(
           onPressed: () {},
-          child: Text('Далее',style: TextStyle(fontSize: 18)),
+          child: Text('Далее', style: TextStyle(fontSize: 18, color: inputTextColor)),
         ),
       ],
     );

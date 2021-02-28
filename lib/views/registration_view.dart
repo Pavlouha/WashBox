@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:washbox/logic/blocs/auth/authentication_bloc.dart';
 import 'package:washbox/logic/models/api/user.dart';
+import 'package:washbox/views/widgets/flutter_toast.dart';
 
 import 'package:washbox/views/widgets/login_and_registration.dart';
 import 'package:washbox/other/colors.dart';
@@ -103,27 +104,27 @@ class _RegistrationViewState extends State<RegistrationView> {
               BlocListener<AuthenticationBloc, AuthenticationState>(
                 listener: (context, state) {
                   if (state.status == 'Loading') {
-                    Scaffold.of(context)
+                    ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
-                        const SnackBar(content: Text('Подождите...')),
+                        toast(context: context, text: 'Подождите...'),
                       );
                   }
                   if (state.status == 'User registered') {
-                    Scaffold.of(context)
+                    ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
-                        const SnackBar(content: Text('Успех, авторизуйтесь, используя логин и пароль!')),
+                        toast(context: context, text: 'Успех, авторизуйтесь, используя логин и пароль'),
                       );
                     Future.delayed(const Duration(milliseconds: 2500), () {
                       Navigator.pop(context);
                     });
                   }
                   if (state.status == 'User registration failed') {
-                    Scaffold.of(context)
+                    ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
-                        const SnackBar(content: Text('Ошибка регистрации!')),
+                        toast(context: context, text: 'Ошибка регистрации'),
                       );
                     Future.delayed(const Duration(seconds: 1), () {
                       Navigator.pop(context);

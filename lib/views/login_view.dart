@@ -5,6 +5,7 @@ import 'package:washbox/logic/blocs/auth/authentication_bloc.dart';
 import 'package:washbox/other/colors.dart';
 import 'package:washbox/other/borders.dart';
 import 'package:washbox/pages/main_menu_page.dart';
+import 'package:washbox/views/widgets/flutter_toast.dart';
 
 import 'package:washbox/views/widgets/login_and_registration.dart';
 import 'package:washbox/pages/registration_page.dart';
@@ -98,22 +99,7 @@ class _LoginPageState extends State<LoginView> {
     context.read<AuthenticationBloc>().add(AppLoaded());
     return Scaffold(
       body: DoubleBackToCloseApp(
-        snackBar: SnackBar(backgroundColor: backgroundColor,
-            content: Container(margin: EdgeInsets.symmetric(horizontal: 20),
-              alignment: Alignment.center,
-              height: 50,
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(25)),
-                color: Colors.white,
-              ),
-              child: Text('Ещё раз нажмите "назад" для выхода', style: TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-              ),),
-            )
-        ),
+        snackBar: toast(context: context, text: 'Ещё раз нажмите "назад" для выхода'),
         child: Container(
           height: height,
           color: backgroundColor,
@@ -123,10 +109,10 @@ class _LoginPageState extends State<LoginView> {
     listener: (context, state) {
       switch (state.status) {
         case "Loading":
-        Scaffold.of(context)
+          ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(
-            const SnackBar(content: Text('Подождите...')),
+            toast(context: context, text: 'Подождите...'),
           );
         break;
         case "Authenticated":
@@ -135,10 +121,10 @@ class _LoginPageState extends State<LoginView> {
                   (route) => false);
           break;
         case 'Authentication failed':
-          Scaffold.of(context)
+          ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Ошибка входа!')),
+              toast(context: context, text: 'Ошибка входа!'),
             );}
       },
       child: Container(
